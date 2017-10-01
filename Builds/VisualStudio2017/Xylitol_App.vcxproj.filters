@@ -191,15 +191,6 @@
     <Filter Include="Juce Modules\juce_core">
       <UniqueIdentifier>{95CA1506-2B94-0DEE-0C8D-85EDEBBC4E88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_cryptography\encryption">
-      <UniqueIdentifier>{7703D2CE-C32A-936A-0EEF-949FE6E52EB5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_cryptography\hashing">
-      <UniqueIdentifier>{8D283B6C-13BA-9EF6-1B18-B1C393786943}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_cryptography">
-      <UniqueIdentifier>{3C7C8F35-6C08-9866-6663-6FEFE2EFC9FC}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Juce Modules\juce_data_structures\app_properties">
       <UniqueIdentifier>{358AEA11-3F96-36AE-7B32-71373B5C5396}</UniqueIdentifier>
     </Filter>
@@ -352,18 +343,6 @@
     </Filter>
     <Filter Include="Juce Modules\juce_opengl">
       <UniqueIdentifier>{639E16C5-DA8B-ADBA-6E24-7B596378EAB2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_video\capture">
-      <UniqueIdentifier>{7F11E7D2-54C0-2A36-5F15-BEC0A5374A08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_video\native">
-      <UniqueIdentifier>{EE985DEA-CD83-8132-7219-542BB1DAD560}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_video\playback">
-      <UniqueIdentifier>{0E43EA8A-95EE-4253-E1B7-160F38ACBB00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_video">
-      <UniqueIdentifier>{72A923E2-C729-DB92-D7BF-A9D4AFAE5896}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
@@ -1131,30 +1110,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\juce_core.mm">
       <Filter>Juce Modules\juce_core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_BlowFish.cpp">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_Primes.cpp">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_RSAKey.cpp">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_MD5.cpp">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_SHA256.cpp">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.cpp">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\juce_cryptography.cpp">
-      <Filter>Juce Modules\juce_cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_cryptography\juce_cryptography.mm">
-      <Filter>Juce Modules\juce_cryptography</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.cpp">
       <Filter>Juce Modules\juce_data_structures\app_properties</Filter>
@@ -2071,18 +2026,6 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.mm">
       <Filter>Juce Modules\juce_opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.cpp">
-      <Filter>Juce Modules\juce_video\capture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\playback\juce_VideoComponent.cpp">
-      <Filter>Juce Modules\juce_video\playback</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\juce_video.cpp">
-      <Filter>Juce Modules\juce_video</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\juce_video.mm">
-      <Filter>Juce Modules\juce_video</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
@@ -2099,9 +2042,6 @@
       <Filter>Juce Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_core.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_cryptography.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_data_structures.cpp">
@@ -2122,11 +2062,11 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SampleSource.h">
+      <Filter>Xylitol\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>Juce Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>
@@ -3093,27 +3033,6 @@
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\juce_core.h">
       <Filter>Juce Modules\juce_core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_BlowFish.h">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_Primes.h">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\encryption\juce_RSAKey.h">
-      <Filter>Juce Modules\juce_cryptography\encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_MD5.h">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_SHA256.h">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.h">
-      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_cryptography\juce_cryptography.h">
-      <Filter>Juce Modules\juce_cryptography</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.h">
       <Filter>Juce Modules\juce_data_structures\app_properties</Filter>
     </ClInclude>
@@ -3923,30 +3842,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.h">
       <Filter>Juce Modules\juce_opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.h">
-      <Filter>Juce Modules\juce_video\capture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\native\juce_android_CameraDevice.h">
-      <Filter>Juce Modules\juce_video\native</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\native\juce_mac_CameraDevice.h">
-      <Filter>Juce Modules\juce_video\native</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\native\juce_mac_Video.h">
-      <Filter>Juce Modules\juce_video\native</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\native\juce_win32_CameraDevice.h">
-      <Filter>Juce Modules\juce_video\native</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\native\juce_win32_Video.h">
-      <Filter>Juce Modules\juce_video\native</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\playback\juce_VideoComponent.h">
-      <Filter>Juce Modules\juce_video\playback</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\juce_video.h">
-      <Filter>Juce Modules\juce_video</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h">
       <Filter>Juce Library Code</Filter>
