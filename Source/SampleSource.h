@@ -2,9 +2,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-//==============================================================================
-/*
-*/
 class SampleSource
 	: public AudioSource,
 	  public Component,

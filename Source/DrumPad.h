@@ -2,7 +2,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class DrumPad : public Component
+class DrumPad
+	: public Component
 {
 public:
 	DrumPad() :
@@ -26,6 +27,7 @@ public:
     }
 
 private:
-	SampleSource sampleSource;
+	NonStreamingSamplerSource sampleSource;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DrumPad)
 };

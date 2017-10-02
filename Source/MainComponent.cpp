@@ -2,7 +2,8 @@
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SampleSource.h"
+//#include "SampleSource.h"
+#include "NonStreamingSamplerSource.h"
 #include "DrumPad.h"
 
 class MainContentComponent 
@@ -55,7 +56,7 @@ private:
 	AudioDeviceManager deviceManager;
 	AudioSourcePlayer sourcePlayer;
 	MixerAudioSource mixerSource;
-	SampleSource sampleSource;
+	NonStreamingSamplerSource sampleSource;
 	DrumPad drumPads[ 4 ];
 
 	//==========================================================================

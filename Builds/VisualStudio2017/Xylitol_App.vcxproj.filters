@@ -2064,6 +2064,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\NonStreamingSamplerSource.h">
+      <Filter>Xylitol\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\SampleSource.h">
       <Filter>Xylitol\Source</Filter>
     </ClInclude>
