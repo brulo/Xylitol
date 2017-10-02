@@ -6,7 +6,8 @@ class SampleSource
 	: public AudioSource,
 	public Component,
 	private ButtonListener,
-	private ChangeListener
+	private ChangeListener,
+	private Timer
 {
 public:
 	SampleSource() :
@@ -30,6 +31,13 @@ public:
 		thumbnail.addChangeListener( this );
 
 		formatManager.registerBasicFormats();
+
+		startTimer( 25 );
+	}
+
+	void timerCallback() override
+	{
+		repaint();
 	}
 
 	void getNextAudioBlock( const AudioSourceChannelInfo& bufferToFill ) override
@@ -106,16 +114,27 @@ public:
 
 	void paintIfFileLoaded( Graphics& g, const Rectangle<int>& thumbnailBounds )
 	{
-		g.setColour( Colours::white );
+		g.setColour( Colours::grey );
 		g.fillRect( thumbnailBounds );
 
-		g.setColour( Colours::red );                                     // [8]
+		g.setColour( Colours::blue );                                     // [8]
 
 		thumbnail.drawChannels( g,                                      // [9]
 								thumbnailBounds,
 								0.0,                                    // start time
 								thumbnail.getTotalLength(),             // end time
 								1.0f );                                  // vertical zoom
+
+		g.setColour( Colours::red );
+		const int numSamples = fileBuffer.getNumSamples();
+		float normalizedPos = ( numSamples - position ) / (float)numSamples;
+		if( !isReversed ) normalizedPos = 1.0f - normalizedPos;
+
+		int x = thumbnailBounds.getWidth() * normalizedPos + thumbnailBounds.getX();
+
+		g.drawLine( x, thumbnailBounds.getY(),
+					x, thumbnailBounds.getY() + thumbnailBounds.getHeight() );
+
 	}
 
 	void changeListenerCallback( ChangeBroadcaster* source ) override
