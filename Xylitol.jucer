@@ -6,8 +6,6 @@
               cppLanguageStandard="11" jucerVersion="5.1.2">
   <MAINGROUP id="lvj50p" name="Xylitol">
     <GROUP id="{E1CD3446-AB61-6C87-70C0-1665DAE50D25}" name="Source">
-      <FILE id="vLvYj5" name="NonStreamingSamplerSource.h" compile="0" resource="0"
-            file="Source/NonStreamingSamplerSource.h"/>
       <FILE id="k9p2hd" name="SampleSource.h" compile="0" resource="0" file="Source/SampleSource.h"/>
       <FILE id="Yn7xuV" name="DrumPad.h" compile="0" resource="0" file="Source/DrumPad.h"/>
       <FILE id="j4qJoj" name="MainComponent.cpp" compile="1" resource="0"

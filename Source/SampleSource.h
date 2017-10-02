@@ -4,161 +4,152 @@
 
 class SampleSource
 	: public AudioSource,
-	  public Component,
-	  public ChangeListener,
-	  public Button::Listener
+	public Component,
+	private ButtonListener
 {
 public:
-    SampleSource()
-		: state( Stopped )
-    {
-		addAndMakeVisible( &openButton );
+	SampleSource() :
+		position( -1 ),
+		isLooping( false )
+	{
+		addAndMakeVisible( openButton );
 		openButton.setButtonText( "Open..." );
 		openButton.addListener( this );
 
-		addAndMakeVisible( &playButton );
+		addAndMakeVisible( playButton );
 		playButton.setButtonText( "Play" );
 		playButton.addListener( this );
-		playButton.setColour( TextButton::buttonColourId, Colours::green );
-		playButton.setEnabled( false );
 
-		addAndMakeVisible( &stopButton );
-		stopButton.setButtonText( "Stop" );
-		stopButton.addListener( this );
-		stopButton.setColour( TextButton::buttonColourId, Colours::red );
-		stopButton.setEnabled( false );
+		addAndMakeVisible( reverseButton );
+		reverseButton.setButtonText( "Reverse" );
+		reverseButton.addListener( this );
 
 		formatManager.registerBasicFormats();
-
-		transportSource.addChangeListener( this );
-    }
-
-    ~SampleSource()
-    {
-    }
-
-	enum TransportState
-	{
-		Stopped,
-		Starting,
-		Playing,
-		Stopping
-	};
-	
-	void prepareToPlay( int samplesPerBlockExpected, double sampleRate ) override
-	{
-		transportSource.prepareToPlay( samplesPerBlockExpected, sampleRate );
 	}
-	
+
 	void getNextAudioBlock( const AudioSourceChannelInfo& bufferToFill ) override
 	{
-		if( readerSource == nullptr )
+		if( position < 0 || fileBuffer.getNumSamples() < 1 )
 		{
 			bufferToFill.clearActiveBufferRegion();
 			return;
 		}
 
-		transportSource.getNextAudioBlock( bufferToFill );
+		const int numInputChannels = fileBuffer.getNumChannels();
+		const int numOutputChannels = bufferToFill.buffer->getNumChannels();
+
+		int outputSamplesRemaining = bufferToFill.numSamples;
+		int outputSamplesOffset = bufferToFill.startSample;
+
+		while( outputSamplesRemaining > 0 )
+		{
+			int bufferSamplesRemaining = fileBuffer.getNumSamples() - position;
+			int samplesThisTime = jmin( outputSamplesRemaining, bufferSamplesRemaining );
+
+			for( int channel = 0; channel < numOutputChannels; ++channel )
+			{
+				bufferToFill.buffer->copyFrom( channel,
+											   outputSamplesOffset,
+											   fileBuffer,
+											   channel % numInputChannels,
+											   position,
+											   samplesThisTime );
+			}
+
+			outputSamplesRemaining -= samplesThisTime;
+			outputSamplesOffset += samplesThisTime;
+			position += samplesThisTime;
+
+			if( isLooping && position == fileBuffer.getNumSamples() )
+				position = 0;
+		}
 	}
-	
+
+	void prepareToPlay( int /*samplesPerBlockExpected*/, double /*sampleRate*/ ) override
+	{
+	}
+
 	void releaseResources() override
 	{
-		transportSource.releaseResources();
+		fileBuffer.setSize( 0, 0 );
+	}
+
+	void resized() override
+	{
+		openButton.setBounds( 10, 10, getWidth() - 20, 20 );
+		playButton.setBounds( 10, 40, getWidth() - 20, 20 );
+		reverseButton.setBounds( 10, 70, 50, 50 );
 	}
 
 	void buttonClicked( Button* button ) override
 	{
-		if( button == &openButton )  openButtonClicked();
-		if( button == &playButton )  playButtonClicked();
-		if( button == &stopButton )  stopButtonClicked();
-	}
-	void playButtonClicked()
-	{
-		changeState( Starting );
+		if( button == &openButton )      openButtonClicked();
+		if( button == &playButton )      playButtonClicked();
+		if( button == &reverseButton )  reverseButtonClicked();
 	}
 
-	void stopButtonClicked()
+private:
+	void reverseButtonClicked()
 	{
-		changeState( Stopping );
+		fileBuffer.reverse( 0, fileBuffer.getNumSamples() );
+		isReversed = !isReversed;
+		reverseButton.setToggleState( isReversed, NotificationType::dontSendNotification );
 	}
+
+
 	void openButtonClicked()
 	{
-		FileChooser chooser( "Select a Wave file to play...",
+		FileChooser chooser( "Select a Wave file shorter than 2 seconds to play...",
 							 File::nonexistent,
 							 "*.wav" );
 
 		if( chooser.browseForFileToOpen() )
 		{
-			File file( chooser.getResult() );
-			AudioFormatReader* reader = formatManager.createReaderFor( file );
+			const File file( chooser.getResult() );
+			ScopedPointer<AudioFormatReader> reader( formatManager.createReaderFor( file ) );
 
 			if( reader != nullptr )
 			{
-				ScopedPointer<AudioFormatReaderSource> newSource = new AudioFormatReaderSource( reader, true );
-				transportSource.setSource( newSource, 0, nullptr, reader->sampleRate );
-				playButton.setEnabled( true );
-				readerSource = newSource.release();
+				const double duration = reader->lengthInSamples / reader->sampleRate;
+
+				if( duration < 10 )
+				{
+					fileBuffer.setSize( reader->numChannels, reader->lengthInSamples );
+					reader->read( &fileBuffer,
+								  0,
+								  reader->lengthInSamples,
+								  0,
+								  true,
+								  true );
+					position = 0;
+
+					if( isReversed )
+					{
+						fileBuffer.reverse( 0, fileBuffer.getNumSamples() );
+					}
+				}
+				else
+				{
+					// handle the error that the file is 2 seconds or longer..
+				}
 			}
 		}
 	}
 
-	void changeState( SampleSource::TransportState newState )
+	void playButtonClicked()
 	{
-		if( state != newState )
-		{
-			state = newState;
-
-			switch( state )
-			{
-				case Stopped:
-					stopButton.setEnabled( false );
-					playButton.setEnabled( true );
-					transportSource.setPosition( 0.0 );
-					break;
-
-				case Starting:
-					playButton.setEnabled( false );
-					transportSource.start();
-					break;
-
-				case Playing:
-					stopButton.setEnabled( true );
-					break;
-
-				case Stopping:
-					transportSource.stop();
-					break;
-			}
-		}
+		position = 0;
 	}
 
-	void changeListenerCallback( ChangeBroadcaster* source ) override
-	{
-		if( source == &transportSource )
-		{
-			if( transportSource.isPlaying() )
-				changeState( Playing );
-			else
-				changeState( Stopped );
-		}
-	}
-
-    void resized() override
-    {
-		openButton.setBounds( 10, 10, getWidth() - 20, 20 );
-		playButton.setBounds( 10, 40, getWidth() - 20, 20 );
-		stopButton.setBounds( 10, 70, getWidth() - 20, 20 );
-    }
-
-private:	
 	TextButton openButton;
 	TextButton playButton;
-	TextButton stopButton;
+	ToggleButton reverseButton;
 
 	AudioFormatManager formatManager;
-	ScopedPointer<AudioFormatReaderSource> readerSource;
-	AudioTransportSource transportSource;
-	TransportState state;
+	AudioSampleBuffer fileBuffer;
+	int position;
+	bool isLooping;
+	bool isReversed = false;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SampleSource)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( SampleSource )
 };

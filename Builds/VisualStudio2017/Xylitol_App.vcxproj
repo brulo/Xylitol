@@ -1718,7 +1718,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\NonStreamingSamplerSource.h"/>
     <ClInclude Include="..\..\Source\SampleSource.h"/>
     <ClInclude Include="..\..\Source\DrumPad.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>

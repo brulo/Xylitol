@@ -1,9 +1,7 @@
-#ifndef MAINCOMPONENT_H_INCLUDED
-#define MAINCOMPONENT_H_INCLUDED
+#pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-//#include "SampleSource.h"
-#include "NonStreamingSamplerSource.h"
+#include "SampleSource.h"
 #include "DrumPad.h"
 
 class MainContentComponent 
@@ -56,14 +54,9 @@ private:
 	AudioDeviceManager deviceManager;
 	AudioSourcePlayer sourcePlayer;
 	MixerAudioSource mixerSource;
-	NonStreamingSamplerSource sampleSource;
 	DrumPad drumPads[ 4 ];
-
-	//==========================================================================
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( MainContentComponent )
 };
 
 Component* createMainContentComponent() { return new MainContentComponent(); }
-
-#endif  // MAINCOMPONENT_H_INCLUDED
