@@ -3,35 +3,21 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SampleSource.h"
+#include "DrumPad.h"
 
 class MainContentComponent 
-		: public Component,
-		  public Slider::Listener
+		: public Component
 {
 public:
-	MainContentComponent()
-		: sampleSource(),
-		filter( &sampleSource, false )
-
+	MainContentComponent() :
+		drumPad()
 	{
 		setSize( 500, 400 );
 
-		addAndMakeVisible( sampleSource );
-
-		filterFreqSlider.setTextBoxStyle( Slider::TextBoxBelow, true, 100, 20 );
-		filterFreqSlider.setSliderStyle( Slider::SliderStyle::Rotary );
-		filterFreqSlider.setName( "Filter Cutoff" );
-		filterFreqSlider.setRange( 20, 20000 );
-		filterFreqSlider.addListener( this );
-		addAndMakeVisible( filterFreqSlider );
-
-		sourcePlayer.setSource( &filter );
-
+		addAndMakeVisible( drumPad );
+		sourcePlayer.setSource( drumPad.getOutputAudioSource() );
 		deviceManager.addAudioCallback( &sourcePlayer );
-
 		deviceManager.initialiseWithDefaultDevices( 0, 1 );
-
-		m_sampleRate = deviceManager.getCurrentAudioDevice()->getCurrentSampleRate();
 	}
 
 	~MainContentComponent()
@@ -41,25 +27,14 @@ public:
 
 	void resized() override
 	{
-		sampleSource.setBounds( 0, 0, getWidth(), getHeight() );
-		filterFreqSlider.setBounds( getWidth() * 0.5, getHeight() - 150, 100, 100 );
-	}
-
-	void sliderValueChanged( Slider* slider ) override
-	{
-		if( slider == &filterFreqSlider )
-		{
-			filter.setCoefficients( IIRCoefficients::makeLowPass( m_sampleRate, slider->getValue() ) );
-		}
+		drumPad.setBounds( 0, 0, getWidth(), getHeight() );
 	}
 
 private:
 	AudioDeviceManager deviceManager;
 	AudioSourcePlayer sourcePlayer;
 	SampleSource sampleSource;
-	IIRFilterAudioSource filter;
-	Slider filterFreqSlider;
-	double m_sampleRate;
+	DrumPad drumPad;
 
 	//==========================================================================
 
