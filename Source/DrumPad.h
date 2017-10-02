@@ -22,8 +22,7 @@ public:
 
     void resized() override
     {
-		sampleSource.setBounds( 0, 0,
-								getWidth(), getHeight() );
+		sampleSource.setBounds( 0, 0, getWidth(), getHeight() );
     }
 
 private:
