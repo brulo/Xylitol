@@ -10,8 +10,9 @@ class MainContentComponent
 public:
 	MainContentComponent()
 	{
-		setSize( 500, 400 );
+		setSize( 480, 320 );
 
+		/*
 		for( int i = 0; i < k_numDrumPads; ++i )
 		{
 			addAndMakeVisible( drumPads[ i ] );
@@ -19,6 +20,11 @@ public:
 		}
 
 		sourcePlayer.setSource( &mixerSource );
+		*/
+
+		addAndMakeVisible( drumPad );
+		sourcePlayer.setSource( drumPad.getOutputAudioSource() );
+
 		deviceManager.addAudioCallback( &sourcePlayer );
 		deviceManager.initialiseWithDefaultDevices( 0, 1 );
 	}
@@ -30,6 +36,9 @@ public:
 
 	void resized() override
 	{
+		drumPad.setBounds( 0, 0, getWidth(), getHeight() );
+
+		/*
 		for( int row = 0; row < k_numRows; ++row )
 		{
 			for( int col = 0; col < k_numCols; ++col )
@@ -44,6 +53,7 @@ public:
 											 height );
 			}
 		}
+		*/
 	}
 
 private:
@@ -54,7 +64,8 @@ private:
 	AudioDeviceManager deviceManager;
 	AudioSourcePlayer sourcePlayer;
 	MixerAudioSource mixerSource;
-	DrumPad drumPads[ 4 ];
+	//DrumPad drumPads[ 4 ];
+	DrumPad drumPad;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( MainContentComponent )
 };

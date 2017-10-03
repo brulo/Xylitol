@@ -28,6 +28,10 @@ public:
 		reverseButton.setButtonText( "Reverse" );
 		reverseButton.addListener( this );
 
+		addAndMakeVisible( loopToggle );
+		loopToggle.setButtonText( "Loop" );
+		loopToggle.addListener( this );
+
 		thumbnail.addChangeListener( this );
 
 		formatManager.registerBasicFormats();
@@ -89,9 +93,10 @@ public:
 
 	void resized() override
 	{
-		openButton.setBounds( 10, 10, getWidth() - 20, 20 );
-		playButton.setBounds( 10, 40, getWidth() - 20, 20 );
-		reverseButton.setBounds( 10, 70, getWidth() - 20, 20 );
+		openButton.setBounds		( 10, 10, getWidth() - 20, 20 );
+		playButton.setBounds		( 10, 40, getWidth() - 20, 20 );
+		reverseButton.setBounds		( 10, 70, getWidth() - 20, 20 );
+		loopToggle.setBounds		( 140, 70, 100, 20 );
 	}
 
 	void paint( Graphics& g ) override
@@ -146,10 +151,17 @@ public:
 	{
 		if( button == &openButton )      openButtonClicked();
 		if( button == &playButton )      playButtonClicked();
-		if( button == &reverseButton )  reverseButtonClicked();
+		if( button == &reverseButton )   reverseButtonClicked();
+		if( button == &loopToggle )		 loopToggleClicked();
 	}
 
 private:
+	void loopToggleClicked()
+	{
+		isLooping = !isLooping;
+		loopToggle.setToggleState( isLooping, NotificationType::dontSendNotification );
+	}
+
 	void reverseButtonClicked()
 	{
 		fileBuffer.reverse( 0, fileBuffer.getNumSamples() );
@@ -182,7 +194,6 @@ private:
 								  0,
 								  true,
 								  true );
-					position = 0;
 
 					if( isReversed )
 					{
@@ -207,6 +218,7 @@ private:
 	TextButton openButton;
 	TextButton playButton;
 	ToggleButton reverseButton;
+	ToggleButton loopToggle;
 
 	AudioFormatManager formatManager;
 	AudioSampleBuffer fileBuffer;
